@@ -3,9 +3,8 @@ name: Release WinUtil
 on:
   push: 
     branches: 
-      - main
-      - test*
-
+      - '*'
+      
 jobs:
   build-runspace:
     runs-on: windows-latest
