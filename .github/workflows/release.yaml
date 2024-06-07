@@ -3,7 +3,7 @@ name: Release WinUtil
 on:
   push: 
     branches: 
-      - '*'
+      - main
       
 jobs:
   build-runspace:
