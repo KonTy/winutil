@@ -1,4 +1,4 @@
-name: Update Branch
+name: Release WinUtil
 
 on:
   push: 
@@ -9,16 +9,35 @@ on:
 jobs:
   build-runspace:
     runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.head_ref }}
-    - name: Compile project
-      shell: pwsh
-      run: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; ./Compile.ps1
-      continue-on-error: false # Directly fail the job on error, removing the need for a separate check
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: Compile Winutil
-      if: success()
+ steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v1
+
+      - name: Run compile.ps1
+        run: Set-ExecutionPolicy Bypass -Scope Process -Force; ./Compile.ps1
+        shell: pwsh
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          body: Release Notes
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./winutil.zip
+          asset_name: winutil.zip
+          asset_content_type: application/zip  
