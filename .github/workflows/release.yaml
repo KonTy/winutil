@@ -35,9 +35,9 @@ jobs:
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./winutil.zip
-          asset_name: winutil.zip
-          asset_content_type: application/zip  
+           upload_url: ${{ steps.create_release.outputs.upload_url }}
+           asset_path: ./winutil.ps1
+           asset_name: winutil.ps1
+           asset_content_type: text/plain
