@@ -12,9 +12,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v1
-
       - name: Run compile.ps1
         run: Set-ExecutionPolicy Bypass -Scope Process -Force; ./Compile.ps1
         shell: pwsh
