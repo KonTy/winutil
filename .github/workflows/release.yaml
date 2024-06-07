@@ -20,7 +20,7 @@ jobs:
         id: extract_version
         run: |
           $version = ''
-          Get-Content ./winutil.ps1 -TotalCount 10 | ForEach-Object {
+          Get-Content ./winutil.ps1 -TotalCount 30 | ForEach-Object {
             if ($_ -match 'Version\s*:\s*(\d{2}\.\d{2}\.\d{2})') {
               $version = $matches[1]
               echo "##[set-output name=version;]$version"
