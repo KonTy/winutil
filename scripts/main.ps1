@@ -49,7 +49,6 @@ $sync.runspace.Open()
         GenericException($Message) : base($Message) {}
     }
 
-
 $inputXML = $inputXML -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
 
 if ((Get-WinUtilToggleStatus WPFToggleDarkMode) -eq $True) {

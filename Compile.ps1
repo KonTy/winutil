@@ -53,7 +53,18 @@ Get-ChildItem .\config | Where-Object {$psitem.extension -eq ".json"} | ForEach-
         $json = ($jsonAsObject | convertto-json -Depth 3).replace('\r\n',"`r`n")
 
     $sync.configs.$($psitem.BaseName) = $json | convertfrom-json
-    Write-output "`$sync.configs.$($psitem.BaseName) = '$json' `| convertfrom-json" | Out-File ./$scriptname -Append -Encoding ascii
+    do {
+        try {
+            Write-output "`$sync.configs.$($psitem.BaseName) = '$json' `| convertfrom-json" | Out-File ./$scriptname -Append -Encoding ascii
+            $fileIsLocked = $false # Set to false if write operation was successful
+        }
+        catch [System.IO.IOException] {
+            # File is still locked, wait for a short interval and then retry
+            Write-Host "File is busy, waiting for it to become available..."
+            Start-Sleep -Seconds 1
+            $fileIsLocked = $true
+        }
+    } while ($fileIsLocked)
 }
 Get-ChildItem .\config | Where-Object {$PSItem.Extension -eq ".cfg"} | ForEach-Object {
     Write-output "`$sync.configs.$($psitem.BaseName) = '$(Get-Content $PSItem.FullName)'" | Out-File ./$scriptname -Append -Encoding ascii
@@ -88,5 +99,8 @@ $xaml = $xaml -replace "{{InstallPanel_tweaks}}", $tweaksXamlContent
 $xaml = $xaml -replace "{{InstallPanel_features}}", $featuresXamlContent
 
 Write-output "`$inputXML =  '$xaml'" | Out-File ./$scriptname -Append -Encoding ascii
+
+$internetSearchXaml = (Get-Content .\xaml\internetSearch.xaml).replace("'","''")
+Write-output "`$internetSearchXaml =  '$internetSearchXaml'" | Out-File ./$scriptname -Append -Encoding ascii
 
 Get-Content .\scripts\main.ps1 | Out-File ./$scriptname -Append -Encoding ascii

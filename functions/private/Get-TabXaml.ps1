@@ -65,7 +65,7 @@ function Get-TabXaml {
     # Iterate through organizedData by panel, category, and application
     $count = 0
     foreach ($panel in ($organizedData.Keys | Sort-Object)) {
-        $blockXml += "<Border Grid.Row=""1"" Grid.Column=""$panelcount"">`n<StackPanel Background=""{MainBackgroundColor}"" SnapsToDevicePixels=""True"">`n"
+        $blockXml += "<Border Grid.Row=""1"" Grid.Column=""$panelcount"" Name=""Border_$($tabname)_Panel$($panel)"">`n<StackPanel Background=""{MainBackgroundColor}"" SnapsToDevicePixels=""True"">`n"
         $panelcount++
         foreach ($category in ($organizedData[$panel].Keys | Sort-Object)) {
             $count++

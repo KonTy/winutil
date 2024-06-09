@@ -54,5 +54,6 @@ function Invoke-WPFButton {
         "WPFMicrowin" {Invoke-WPFMicrowin}
         "WPFCloseButton" {Invoke-WPFCloseButton}
         "MicrowinScratchDirBT" {Invoke-ScratchDialog}
+        "WPFGetOnlineApps" {Invoke-OnlineSearchDialog}
     }
 }

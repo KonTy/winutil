@@ -10,13 +10,12 @@ function Invoke-ScratchDialog {
     #>
     $sync.WPFMicrowinISOScratchDir.IsChecked 
  
-
     [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
     $Dialog = New-Object System.Windows.Forms.FolderBrowserDialog
     $Dialog.SelectedPath =          $sync.MicrowinScratchDirBox.Text
     $Dialog.ShowDialog() 
     $filePath = $Dialog.SelectedPath
-        Write-Host "No ISO is chosen+  $filePath"
+    Write-Host "No ISO is chosen+  $filePath"
 
     if ([string]::IsNullOrEmpty($filePath))
     {
@@ -24,6 +23,5 @@ function Invoke-ScratchDialog {
         return
     }
     
-       $sync.MicrowinScratchDirBox.Text =  Join-Path $filePath "\"
-
+    $sync.MicrowinScratchDirBox.Text =  Join-Path $filePath "\"
 }
